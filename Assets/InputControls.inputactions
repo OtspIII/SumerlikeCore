@@ -18,7 +18,7 @@
                     "name": "Use A",
                     "type": "Button",
                     "id": "2c5a614e-2a33-4de5-85d1-3ed240fabe20",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
@@ -27,7 +27,7 @@
                     "name": "Use B",
                     "type": "Button",
                     "id": "c50a79c7-17aa-4cab-b8a6-45d7747f0a1f",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
@@ -102,6 +102,39 @@
                     "name": "up",
                     "id": "98d1a142-2f7b-4766-8bff-b8897086a9a2",
                     "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboarder",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "28513e95-983e-42d4-833f-d533b42e0a5e",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboarder",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "45c61a0d-2ad7-453d-ae4e-949a730c21b4",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboarder",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "c681ed8b-aa7f-49db-b3b3-6d505802c9d6",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboarder",
