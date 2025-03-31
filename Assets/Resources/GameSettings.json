@@ -1,0 +1,8 @@
+{
+    "WalkSpeed":10,
+    "TurnTime":30,
+    "AuctionTime":1,
+    "TotalTurns":30,
+    "BidSpeed":1,
+    "StartTime":5
+}
