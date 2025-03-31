@@ -12,6 +12,9 @@ public class ZoneController : MonoBehaviour
     public TextMeshPro Desc;
     public List<PlayerController> Inside;
     public SpriteRenderer BG;
+    public GameEvent Effect;
+    public GameEvent[] ExtraEffects;
+    public GameBoard Board;
 
     
     void Start()
@@ -23,7 +26,8 @@ public class ZoneController : MonoBehaviour
     {
         if(Title != null)
             Title.text = Name;
-        God.GM.Zones.Add(this);
+        if (Board == null) Board = gameObject.GetComponentInParent<GameBoard>();
+        Board.Zones.Add(this);
     }
 
     public virtual void PlayerEnter(PlayerController pc)

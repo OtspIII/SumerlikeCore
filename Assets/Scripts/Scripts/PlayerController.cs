@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 Movement;
     public List<PActions> Pressed;
     public List<PActions> JustPressed;
+    public List<PActions> JustReleased;
     
     void Start()
     {
@@ -34,56 +35,12 @@ public class PlayerController : MonoBehaviour
         if(Controls != ControllerType.Gamepad)
             Movement = Vector2.zero;
         if(Controls == ControllerType.AI) AIControls();
-        else HumanControls();
         RB.linearVelocity = Movement;
         if(Pressed.Contains(PActions.A)) UseA(JustPressed.Contains(PActions.A));
         if(Pressed.Contains(PActions.B)) UseB(JustPressed.Contains(PActions.B));
         JustPressed.Clear();
     }
 
-    public void HumanControls()
-    {
-        //Vector2 vel = Vector2.zero;
-        if (Button(PActions.Up))
-        {
-            Movement.y = Speed;
-        }
-        if (Button(PActions.Down))
-        {
-            Movement.y = -Speed;
-        }
-        if (Button(PActions.Right))
-        {
-            Movement.x = Speed;
-        }
-        if (Button(PActions.Left))
-        {
-            Movement.x = -Speed;
-        }
-        
-        if (ButtonDown(PActions.Join))
-        {
-            Join();
-        }
-
-        if (ButtonDown(PActions.A))
-        {
-            Press(PActions.A);
-        }
-        else if (ButtonUp(PActions.A))
-        {
-            Release(PActions.A);
-        }
-        
-        if (ButtonDown(PActions.B))
-        {
-            Press(PActions.B);
-        }
-        else if (ButtonUp(PActions.B))
-        {
-            Release(PActions.B);
-        }
-    }
 
     void UseA(bool held=true)
     {
@@ -115,84 +72,24 @@ public class PlayerController : MonoBehaviour
         Stats = new PlayerStats(c);
         Stats.PC = this;
         gameObject.name = Stats.Name;
-        God.Players.Add(c,Stats);
+        God.Session.Players.Add(c,Stats);
         Speed = GameSettings.WalkSpeed;
     }
 
     public bool ButtonDown(PActions a)
     {
-        foreach (KeyCode k in GetButton(a))
-        {
-            if (Input.GetKeyDown(k)) return true;
-        }
-        return false;
+        return JustPressed.Contains(a);
     }
     public bool ButtonUp(PActions a)
     {
-        foreach (KeyCode k in GetButton(a))
-        {
-            if (Input.GetKeyUp(k)) return true;
-        }
-        return false;
+        return JustReleased.Contains(a);
     }
     
     public bool Button(PActions a)
     {
-        foreach (KeyCode k in GetButton(a))
-        {
-            if (Input.GetKey(k)) return true;
-        }
-        return false;
+        return Pressed.Contains(a);
     }
 
-    public KeyCode[] GetButton(PActions a)
-    {
-        switch (Controls)
-        {
-            case ControllerType.Keyboard:
-            {
-                switch (a)
-                {
-                    case PActions.Up:
-                    {
-                        return new [] { KeyCode.UpArrow };
-                    }
-                    case PActions.Right:
-                    {
-                        return new [] { KeyCode.RightArrow};
-                    }
-                    case PActions.Down:
-                    {
-                        return new [] { KeyCode.DownArrow};
-                    }
-                    case PActions.Left:
-                    {
-                        return new [] { KeyCode.LeftArrow};
-                    }
-                    case PActions.A:
-                    {
-                        return new [] { KeyCode.X,KeyCode.RightControl };
-                    }
-                    case PActions.B:
-                    {
-                        return new [] { KeyCode.Z,KeyCode.RightShift};
-                    }
-                    case PActions.Join:
-                    {
-                        return new [] { KeyCode.Return};
-                    }
-                    default:
-                    {
-                        return new KeyCode[] {};
-                    }
-                }
-            }
-            default:
-            {
-                return new KeyCode[] { };
-            }   
-        }
-    }
 
     public void SetupControls()
     {
@@ -235,11 +132,11 @@ public class PlayerController : MonoBehaviour
 
     public void Join()
     {
-        if (Controls != ControllerType.AI && God.GM.Countdown > 0)
-        {
-            God.GM.Countdown = 0.1f;
-            return;
-        }
+        // if (Controls != ControllerType.AI && God.GM.CurrentBoard.Countdown > 0)
+        // {
+        //     God.GM.CurrentBoard.Countdown = 0.1f;
+        //     return;
+        // }
     }
 
     public void Press(PActions a, InputValue iv)
@@ -326,6 +223,6 @@ public enum ControllerType
 {
     None=0,
     AI=1,
-    Keyboard=2,
+    Remote=2,
     Gamepad=3,
 }
