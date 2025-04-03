@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class LibraryManager : MonoBehaviour
 {
    public List<PColor> PColors;
-   public Dictionary<Players, PColor> PlayerDict = new Dictionary<Players, PColor>();
+   public Dictionary<PlayerC, PColor> PlayerDict = new Dictionary<PlayerC, PColor>();
 
    public void Awake()
    {
@@ -21,7 +21,7 @@ public class LibraryManager : MonoBehaviour
    }
 
 
-   public PColor GetPlayer(Players p)
+   public PColor GetPlayer(PlayerC p)
    {
       return PlayerDict.ContainsKey(p) ? PlayerDict[p] : null;
    }
@@ -31,7 +31,7 @@ public class LibraryManager : MonoBehaviour
 [System.Serializable]
 public class PColor
 {
-   public Players Type;
+   public PlayerC Type;
    public string Name;
    public Color C;
 }

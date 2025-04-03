@@ -1,13 +1,61 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class GameSession
 {
-    public Dictionary<Players, PlayerStats> Players = new Dictionary<Players, PlayerStats>();
+    public List<PlayerC> ColorOptions = new List<PlayerC>()
+        { PlayerC.Blue, PlayerC.Green, PlayerC.Red, PlayerC.Yellow };
+    public Dictionary<PlayerC, PlayerStats> Players = new Dictionary<PlayerC, PlayerStats>();
 
-    public PlayerStats GetPlayer(Players p)
+    public List<GamePhase> Phases;
+    public GamePhase CurrentPhase;
+
+    public GameSession()
+    {
+        Setup();
+    }
+
+    public virtual void Setup()
+    {
+        Phases = new List<GamePhase>()
+        {
+            new PlacePhase(),new ScorePhase(),
+            new PlacePhase(),new ScorePhase(),
+            new PlacePhase(),new ScorePhase(),
+        };
+    }
+
+    public PlayerStats GetPlayer(PlayerC p)
     {
         return Players.ContainsKey(p) ? Players[p] : null;
+    }
+    
+    public PlayerC NextPlayer()
+    {
+        PlayerC chosen = ColorOptions.RandomE(true);
+        if(chosen == PlayerC.None) Debug.Log("ERROR: OUT OF COLORS");
+        return chosen;
+    }
+
+    public virtual void NextPhase()
+    {
+        if (Phases.Count == 0) SceneManager.LoadScene("Main Menu");
+        GamePhase chosen = Phases[0];
+        Phases.Remove(chosen);
+        chosen.Start(this);
+    }
+
+    public virtual void HandleEvent(PlayerStats pc, GameEvent e)
+    {
+        switch (e.Type)
+        {
+            case GEvents.StartGame:
+            {
+                SceneManager.LoadScene("Gameplay");
+                break;
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2656355269668747033
+--- !u!1 &3340918702104767252
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2656355269668747039}
-  - component: {fileID: 9133198031970107306}
+  - component: {fileID: 3493668429800975614}
+  - component: {fileID: 8174349377934439986}
   m_Layer: 0
-  m_Name: Game Manager
+  m_Name: Library
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2656355269668747039
+--- !u!4 &3493668429800975614
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2656355269668747033}
+  m_GameObject: {fileID: 3340918702104767252}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,17 +32,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9133198031970107306
+--- !u!114 &8174349377934439986
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2656355269668747033}
+  m_GameObject: {fileID: 3340918702104767252}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21d5f78e4ff49df459e92c825128e66d, type: 3}
+  m_Script: {fileID: 11500000, guid: ba7052b53d1023c47846a45cdb555582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Keyboarder: {fileID: 0}
-  CurrentBoard: {fileID: 0}
+  PColors:
+  - Type: 1
+    Name: Blue
+    C: {r: 0, g: 0.031219006, b: 1, a: 1}
+  - Type: 2
+    Name: Red
+    C: {r: 1, g: 0, b: 0.08608723, a: 1}
+  - Type: 3
+    Name: Yellow
+    C: {r: 1, g: 0.7737833, b: 0, a: 1}
+  - Type: 4
+    Name: Green
+    C: {r: 0.036716342, g: 1, b: 0, a: 1}

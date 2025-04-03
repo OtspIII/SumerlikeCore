@@ -46,15 +46,32 @@ public class ZoneController : MonoBehaviour
 
     }
 
-    public virtual void UseA(PlayerStats pc, bool down)
+    public virtual void OnUse(PlayerStats pc)
+    {
+        //Debug.Log("USED A: " + gameObject + " / " + pc);
+    }
+    
+    public virtual void OnUseStart(PlayerStats pc)
+    {
+        God.HandleEvent(pc,Effect);
+    }
+    
+    public virtual void OnUseEnd(PlayerStats pc)
     {
         Debug.Log("USED A: " + gameObject + " / " + pc);
     }
     
-    public virtual void UseB(PlayerStats pc, bool down)
+    public virtual void OnAlt(PlayerStats pc)
+    {
+        //Debug.Log("USED B: " + gameObject + " / " + pc);
+    }
+    public virtual void OnAltStart(PlayerStats pc)
     {
         Debug.Log("USED B: " + gameObject + " / " + pc);
-        
+    }
+    public virtual void OnAltEnd(PlayerStats pc)
+    {
+        Debug.Log("USED B: " + gameObject + " / " + pc);
     }
     
     public virtual void TurnEnd()

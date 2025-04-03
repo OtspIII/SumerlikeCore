@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     [Header("Stats")] public ControllerType Controls = ControllerType.AI;
 
     [Header("Stuff")] 
-    public Players Color;
     public PlayerStats Stats;
     public Rigidbody2D RB;
     public SpriteRenderer SR;
@@ -25,7 +24,6 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
-        Setup(Color);
         // AIPickTarget();
         Stats.TurnStart();
     }
@@ -36,17 +34,50 @@ public class PlayerController : MonoBehaviour
             Movement = Vector2.zero;
         if(Controls == ControllerType.AI) AIControls();
         RB.linearVelocity = Movement;
-        if(Pressed.Contains(PActions.A)) UseA(JustPressed.Contains(PActions.A));
-        if(Pressed.Contains(PActions.B)) UseB(JustPressed.Contains(PActions.B));
+        if (Pressed.Contains(PActions.A))
+        {
+            if(JustPressed.Contains(PActions.A))
+                UseAStart();
+            UseA();
+        }
+        else if (JustPressed.Contains(PActions.A))
+        {
+            UseAEnd();
+        }
+        if (Pressed.Contains(PActions.B))
+        {
+            if(JustPressed.Contains(PActions.B))
+                UseBStart();
+            UseB();
+        }
+        else if (JustPressed.Contains(PActions.B))
+        {
+            UseBEnd();
+        }
         JustPressed.Clear();
     }
-
-
-    void UseA(bool held=true)
+    
+    void UseA()
     {
         if (Zone != null)
         {
-            Zone.UseA(Stats,held);
+            Zone.OnUse(Stats);
+        }
+    }
+
+    void UseAStart()
+    {
+        if (Zone != null)
+        {
+            Zone.OnUseStart(Stats);
+        }
+    }
+    
+    void UseAEnd()
+    {
+        if (Zone != null)
+        {
+            Zone.OnUseEnd(Stats);
         }
     }
     
@@ -54,7 +85,23 @@ public class PlayerController : MonoBehaviour
     {
         if (Zone != null)
         {
-            Zone.UseB(Stats,held);
+            Zone.OnAlt(Stats);
+        }
+    }
+    
+    void UseBStart()
+    {
+        if (Zone != null)
+        {
+            Zone.OnAltStart(Stats);
+        }
+    }
+    
+    void UseBEnd()
+    {
+        if (Zone != null)
+        {
+            Zone.OnAltEnd(Stats);
         }
     }
 
@@ -64,15 +111,14 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void Setup(Players c)
+    public void Setup(PlayerStats s)
     {
-        Color = c;
-        PColor p = God.Library.GetPlayer(c);
+        Stats = s;
+        Debug.Log(s + " / " + Stats.Who);
+        PColor p = God.Library.GetPlayer(Stats.Who);
         SR.color = p.C;
-        Stats = new PlayerStats(c);
         Stats.PC = this;
         gameObject.name = Stats.Name;
-        God.Session.Players.Add(c,Stats);
         Speed = GameSettings.WalkSpeed;
     }
 
@@ -163,11 +209,11 @@ public class PlayerController : MonoBehaviour
 [System.Serializable]
 public class PlayerStats
 {
-    public Players Who;
+    public PlayerC Who;
     public string Name;
     public PlayerController PC;
 
-    public PlayerStats(Players w)
+    public PlayerStats(PlayerC w)
     {
         Who = w;
         Name = Who.ToString();
@@ -191,7 +237,7 @@ public class PlayerStats
 }
 
 
-public enum Players
+public enum PlayerC
 {
     None=0,
     Blue=1,

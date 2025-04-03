@@ -6,7 +6,9 @@ public static class God
     public static LibraryManager Library;
     public static GameManager GM;
     
-    public static PlayerStats GetPlayer(Players p)
+    public static GamePhase Phase { get { return Session.CurrentPhase; } }
+    
+    public static PlayerStats GetPlayer(PlayerC p)
     {
         return Session.Players.ContainsKey(p) ? Session.Players[p] : null;
     }
@@ -15,4 +17,11 @@ public static class God
     {
         return new GameEvent(e);
     }
+
+    public static void HandleEvent(PlayerStats pc, GameEvent e)
+    {
+        if(Phase != null) Phase.HandleEvent(pc,e);
+        else Session.HandleEvent(pc,e);
+    }
+
 }
