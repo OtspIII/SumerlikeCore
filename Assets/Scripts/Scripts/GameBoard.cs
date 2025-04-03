@@ -5,26 +5,31 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
-    // public float TurnTimer;
-    // public int TurnsLeft;
-    //
-    // public TextMeshPro TimeDisplay;
+    public GameBoards Type;
+    public TextMeshPro TimeDisplay;
+    public Transform CamPosition;
     public List<ZoneController> Zones;
     // public TextMeshPro CountdownTxt;
     // public float Countdown;
 
     private void Start()
     {
-        // TurnTimer = GameSettings.TurnTime;
-        // TurnsLeft = GameSettings.TotalTurns;
-        //
-        // Countdown = GameSettings.StartTime;
-        // Time.timeScale = 0;
-        // CountdownTxt.gameObject.SetActive(true);
+        God.GM.BoardDict.Add(Type,this);
+    }
+
+    public virtual void Setup(GamePhase ph)
+    {
+        
+    }
+
+    public void DisplayTime(float timer, int rounds=-1)
+    {
+        TimeDisplay.text = "" + (rounds != -1 ? rounds + " : " : "" ) + Mathf.Ceil(timer);
     }
     
     void Update()
     {
+        
         // TurnTimer -= Time.deltaTime;
         // TimeDisplay.text = "" + TurnsLeft + " : " + Mathf.Ceil(TurnTimer);
         // if(TurnTimer <= 0) TakeTurn();

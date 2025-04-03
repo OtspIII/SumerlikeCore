@@ -44,7 +44,7 @@ public class GameSession
         if (Phases.Count == 0) SceneManager.LoadScene("Main Menu");
         GamePhase chosen = Phases[0];
         Phases.Remove(chosen);
-        chosen.Start(this);
+        God.GM.StartPhase(chosen);
     }
 
     public virtual void HandleEvent(PlayerStats pc, GameEvent e)

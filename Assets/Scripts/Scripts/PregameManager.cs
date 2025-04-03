@@ -4,7 +4,14 @@ using UnityEngine.InputSystem;
 
 public class PregameManager : MonoBehaviour
 {
+    public PlayerInputManager PIM;
     public List<PlayerStats> Players;
+
+    void Awake()
+    {
+        PlayerInputManager.instance.onPlayerJoined += OnPlayerJoined;
+        //PlayerInputManager.instance.onPlayerLeft += OnPlayerLeft;
+    }
     
     void Start()
     {
@@ -15,7 +22,7 @@ public class PregameManager : MonoBehaviour
         }
     }
     
-    void OnPlayerJoined(PlayerInput pi)
+    public void OnPlayerJoined(PlayerInput pi)
     {
         PlayerController p = pi.gameObject.GetComponent<PlayerController>();
         p.SetupControls();

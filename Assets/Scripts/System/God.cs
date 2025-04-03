@@ -7,10 +7,11 @@ public static class God
     public static GameManager GM;
     
     public static GamePhase Phase { get { return Session.CurrentPhase; } }
+    public static GameBoard Board { get { return GM.CurrentBoard; } }
     
     public static PlayerStats GetPlayer(PlayerC p)
     {
-        return Session.Players.ContainsKey(p) ? Session.Players[p] : null;
+        return Session.Players.TryGetValue(p, out PlayerStats r) ? r : null;
     }
 
     public static GameEvent E(GEvents e)
