@@ -21,9 +21,11 @@ public class GameSession
     {
         Phases = new List<GamePhase>()
         {
+            new IntroPhase(),
             new PlacePhase(),new ScorePhase(),
             new PlacePhase(),new ScorePhase(),
             new PlacePhase(),new ScorePhase(),
+            new EndgamePhase()
         };
     }
 
@@ -44,6 +46,7 @@ public class GameSession
         if (Phases.Count == 0) SceneManager.LoadScene("Main Menu");
         GamePhase chosen = Phases[0];
         Phases.Remove(chosen);
+        CurrentPhase = chosen;
         God.GM.StartPhase(chosen);
     }
 
@@ -54,6 +57,23 @@ public class GameSession
             case GEvents.StartGame:
             {
                 SceneManager.LoadScene("Gameplay");
+                break;
+            }
+            case GEvents.GetCoins:
+            {
+                
+                break;
+            }
+            case GEvents.GetCups:
+            {
+                break;
+            }
+            case GEvents.GetSwords:
+            {
+                break;
+            }
+            case GEvents.GetWands:
+            {
                 break;
             }
         }

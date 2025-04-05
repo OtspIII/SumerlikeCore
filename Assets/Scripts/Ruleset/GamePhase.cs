@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class GamePhase
 {
-    public GamePhases Type;
-    public GameBoards Board;
+    public GPhases Type;
+    public GBoards Board;
     public GameSession Session;
     public float TurnTime;
     public float TimeLeft;
@@ -39,14 +39,15 @@ public class GamePhase
         yield return null;
     }
 
-
     public virtual void Run()
     {
+        Debug.Log("A");
         if (TurnTime > 0) Timer();
     }
 
     public virtual void Timer()
     {
+        Debug.Log("B");
         TimeLeft -= Time.deltaTime;
         God.Board.DisplayTime(TimeLeft, TurnsLeft);
         if (TimeLeft <= 0)
@@ -67,7 +68,7 @@ public class GamePhase
 
     public bool CheckForComplete()
     {
-        return Complete;
+        return TurnTime <= 0 || Complete;
     }
     
     public IEnumerator Perform()
@@ -80,10 +81,16 @@ public class GamePhase
             yield return null;
         }
         yield return God.GM.StartCoroutine(EndPhase());
+        God.Session.NextPhase();
     }
 
     public virtual IEnumerator Script()
     {
         yield return null;
+    }
+
+    public Coroutine C(IEnumerator i)
+    {
+        return God.GM.StartCoroutine(i);
     }
 }

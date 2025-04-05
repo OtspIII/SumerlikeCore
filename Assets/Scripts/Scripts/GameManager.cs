@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     public Coroutine PhaseC;
     public GameBoard CurrentBoard;
 
-    public Dictionary<GameBoards, GameBoard> BoardDict = new Dictionary<GameBoards, GameBoard>();
+    public Dictionary<GBoards, GameBoard> BoardDict = new Dictionary<GBoards, GameBoard>();
+    public Dictionary<PlayerC, PlayerStatsheet> SheetDict = new Dictionary<PlayerC, PlayerStatsheet>();
 
     void Awake()
     {
@@ -21,15 +22,23 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        foreach (PlayerC c in God.Session.Players.Keys)
+        {
+            SheetDict[c].Setup(God.Session.Players[c]);
+        }
         God.Session.NextPhase();
     }
 
     void Update()
     {
         if(God.Phase != null) God.Phase.Run();
+        foreach (PlayerC c in God.Session.Players.Keys)
+        {
+            SheetDict[c].Imprint();
+        }
     }
 
-    public GameBoard GetBoard(GameBoards b)
+    public GameBoard GetBoard(GBoards b)
     {
         if (BoardDict.TryGetValue(b, out GameBoard r)) return r;
         Debug.Log("UNFOUND BOARD: " + b);
@@ -38,6 +47,13 @@ public class GameManager : MonoBehaviour
 
     public void StartPhase(GamePhase p)
     {
+        Debug.Log("START PHASE: " + p);
+        if (p.Board != GBoards.None)
+        {
+            GameBoard b = GetBoard(p.Board);
+            SetBoard(b);
+        }
+
         if(PhaseC != null) StopCoroutine(PhaseC);
         PhaseC = StartCoroutine(p.Perform());
     }
@@ -45,20 +61,23 @@ public class GameManager : MonoBehaviour
     public void SetBoard(GameBoard b)
     {
         CurrentBoard = b;
-        StartCoroutine(CameraTransition(CurrentBoard.CamPosition));
+        if(CurrentBoard.CamPosition.position != Cam.transform.position)
+            StartCoroutine(CameraTransition(CurrentBoard.CamPosition));
     }
 
     public IEnumerator CameraTransition(Transform tr, float duration=0.2f)
     {
         float t = 0;
+        Vector3 tpos = tr.position;
+        tpos.z = -10;
         while (t < 1)
         {
             float tt = Imp.Ease (t, Eases.InOut);
-            Cam.transform.position = Vector3.Lerp(Cam.transform.position,tr.position,tt);
+            Cam.transform.position = Vector3.Lerp(Cam.transform.position,tpos,tt);
             yield return null;
             t += Time.deltaTime / duration;
         }
-        Cam.transform.position = tr.position;
+        Cam.transform.position = tpos;
     }
 
 }

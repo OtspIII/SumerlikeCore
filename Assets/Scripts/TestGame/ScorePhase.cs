@@ -1,9 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class ScorePhase : GamePhase
 {
     public ScorePhase()
     {
-        Type = GamePhases.Score;
+        Type = GPhases.Score;
+    }
+
+    public override IEnumerator Script()
+    {
+        yield return C(God.GM.CurrentBoard.DisplayText("SCORING"));
     }
 }

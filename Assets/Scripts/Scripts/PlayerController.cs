@@ -212,6 +212,11 @@ public class PlayerStats
     public PlayerC Who;
     public string Name;
     public PlayerController PC;
+    public PlayerStatsheet Sheet
+    {
+        get { return God.GM.SheetDict[Who]; }
+    }
+    public Dictionary<GResources, int> Resources = new Dictionary<GResources, int>();
 
     public PlayerStats(PlayerC w)
     {
@@ -223,6 +228,17 @@ public class PlayerStats
     public void Setup()
     {
         
+    }
+
+    public int ChangeResource(GResources res, int amt)
+    {
+        if (!Resources.ContainsKey(res))
+        {
+            Resources.Add(res,amt);
+            return amt;
+        }
+        Resources[res] += amt;
+        return Resources[res];
     }
 
     public void TurnEnd()
@@ -256,13 +272,6 @@ public enum PActions
     A=5,
     B=6,
     Join=7
-}
-
-public enum GResources
-{
-    None=0,
-    Coins=1,
-    Materials=2,
 }
 
 public enum ControllerType

@@ -1,9 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class EndgamePhase : GamePhase
 {
     public EndgamePhase()
     {
-        Type = GamePhases.Endgame;
+        Type = GPhases.Endgame;
+    }
+
+    public override IEnumerator Script()
+    {
+        yield return C(God.GM.CurrentBoard.DisplayText("GOOD JOB"));
     }
 }

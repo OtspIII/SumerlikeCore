@@ -29,6 +29,7 @@ public class PregameManager : MonoBehaviour
         PlayerC color = God.Session.NextPlayer();
         PlayerStats s = new PlayerStats(color);
         p.Setup(s);
+        God.Session.Players.Add(color,s);
         DontDestroyOnLoad(p.gameObject);
     }
 }

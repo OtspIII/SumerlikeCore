@@ -4,6 +4,8 @@ public class PlacePhase : GamePhase
 {
     public PlacePhase()
     {
-        Type = GamePhases.Place;
+        Type = GPhases.Place;
+        TotalTurns = 3;
+        TurnTime = 10;
     }
 }
