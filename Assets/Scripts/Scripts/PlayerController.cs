@@ -21,11 +21,13 @@ public class PlayerController : MonoBehaviour
     public List<PActions> Pressed;
     public List<PActions> JustPressed;
     public List<PActions> JustReleased;
+    public List<TokenController> Tokens = new List<TokenController>();
+    public List<TokenController> Followers = new List<TokenController>();
     
     void Start()
     {
         // AIPickTarget();
-        Stats.TurnStart();
+        // Stats.TurnStart();
     }
 
     void Update()
@@ -55,6 +57,19 @@ public class PlayerController : MonoBehaviour
             UseBEnd();
         }
         JustPressed.Clear();
+    }
+
+    public virtual void SetupPregame()
+    {
+        
+    }
+
+    public virtual void Setup()
+    {
+        for (int n = 0; n < GameSettings.StartingTokens; n++)
+        {
+            God.Library.SpawnToken(Stats);
+        }
     }
     
     void UseA()
@@ -136,16 +151,6 @@ public class PlayerController : MonoBehaviour
         return Pressed.Contains(a);
     }
 
-
-    public void SetupControls()
-    {
-        if (PI.devices.Count == 0)
-        {
-            return;
-        }
-        
-        Debug.Log("CONTROLS SETUP: " + gameObject.name);
-    }
     
     void OnMove(InputValue movementValue)
     {
@@ -204,80 +209,15 @@ public class PlayerController : MonoBehaviour
         Pressed.Remove(a);
     }
 
-}
-
-[System.Serializable]
-public class PlayerStats
-{
-    public PlayerC Who;
-    public string Name;
-    public PlayerController PC;
-    public PlayerStatsheet Sheet
+    public void AddToken(TokenController t)
     {
-        get { return God.GM.SheetDict[Who]; }
-    }
-    public Dictionary<GResources, int> Resources = new Dictionary<GResources, int>();
-
-    public PlayerStats(PlayerC w)
-    {
-        Who = w;
-        Name = Who.ToString();
-        Setup();
-    }
-
-    public void Setup()
-    {
-        
-    }
-
-    public int ChangeResource(GResources res, int amt)
-    {
-        if (!Resources.ContainsKey(res))
+        if(!Tokens.Contains(t)) Tokens.Add(t);
+        if (!Followers.Contains(t))
         {
-            Resources.Add(res,amt);
-            return amt;
+            Followers.Add(t);
+            t.SetTarget(Followers.IndexOf(t));
         }
-        Resources[res] += amt;
-        return Resources[res];
     }
 
-    public void TurnEnd()
-    {
-       
-    }
-
-    public void TurnStart()
-    {
-        
-    }
 }
 
-
-public enum PlayerC
-{
-    None=0,
-    Blue=1,
-    Red=2,
-    Yellow=3,
-    Green=4
-}
-
-public enum PActions
-{
-    None=0,
-    Up=1,
-    Right=2,
-    Down=3,
-    Left=4,
-    A=5,
-    B=6,
-    Join=7
-}
-
-public enum ControllerType
-{
-    None=0,
-    AI=1,
-    Remote=2,
-    Gamepad=3,
-}

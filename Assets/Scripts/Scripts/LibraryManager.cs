@@ -8,6 +8,7 @@ public class LibraryManager : MonoBehaviour
 {
    public List<PColor> PColors;
    public Dictionary<PlayerC, PColor> PlayerDict = new Dictionary<PlayerC, PColor>();
+   public TokenController TokenPrefab;
 
    public void Awake()
    {
@@ -24,6 +25,13 @@ public class LibraryManager : MonoBehaviour
    public PColor GetPlayer(PlayerC p)
    {
       return PlayerDict.ContainsKey(p) ? PlayerDict[p] : null;
+   }
+
+   public TokenController SpawnToken(PlayerStats who)
+   {
+      TokenController r = Instantiate(TokenPrefab, who.PC.transform.position, Quaternion.identity);
+      r.Setup(who);
+      return r;
    }
 
 }

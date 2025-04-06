@@ -25,11 +25,11 @@ public class PregameManager : MonoBehaviour
     public void OnPlayerJoined(PlayerInput pi)
     {
         PlayerController p = pi.gameObject.GetComponent<PlayerController>();
-        p.SetupControls();
         PlayerC color = God.Session.NextPlayer();
         PlayerStats s = new PlayerStats(color);
         p.Setup(s);
         God.Session.Players.Add(color,s);
         DontDestroyOnLoad(p.gameObject);
+        p.SetupPregame();
     }
 }

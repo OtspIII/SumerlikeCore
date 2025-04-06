@@ -33,12 +33,20 @@ public class GamePhase
     
     public virtual IEnumerator EndPhase()
     {
+        foreach (ZoneController z in God.Board.Zones)
+        {
+            z.PhaseEnd(Type);
+        }
         yield return null;
         //yield return C(God.Board.DisplayText(Type + " End"));
     }
 
     public virtual IEnumerator EndTurn()
     {
+        foreach (ZoneController z in God.Board.Zones)
+        {
+            z.TurnEnd();
+        }
         yield return C(God.Board.DisplayText("Turn " + (TotalTurns-TurnsLeft) + " Complete"));
     }
 
@@ -67,7 +75,7 @@ public class GamePhase
         
     }
 
-    public virtual void HandleEvent(PlayerStats pc, GameEvent e)
+    public virtual void HandleEvent(PlayerStats pc, GameEvent e,TokenController t=null)
     {
         //Can override normal rules if desired
         Session.HandleEvent(pc,e);

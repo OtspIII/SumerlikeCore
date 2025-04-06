@@ -8,6 +8,7 @@ public static class GameSettings
 
     //SET THROUGH JSON, DO NOT CHANGE HERE
     public static float WalkSpeed;
+    public static int StartingTokens = 2;
 
     
     public static void Load(JSONGame g)

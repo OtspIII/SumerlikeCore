@@ -128,7 +128,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 323864077}
     m_Modifications:
     - target: {fileID: 600934668059378072, guid: 6074db12e66e7434baaa660cc96033c2, type: 3}
+      propertyPath: Name
+      value: Start Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 600934668059378072, guid: 6074db12e66e7434baaa660cc96033c2, type: 3}
       propertyPath: Effect.Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 600934668059378072, guid: 6074db12e66e7434baaa660cc96033c2, type: 3}
+      propertyPath: UseEffect.Type
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 600934668059378073, guid: 6074db12e66e7434baaa660cc96033c2, type: 3}

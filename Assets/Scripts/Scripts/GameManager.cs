@@ -24,7 +24,9 @@ public class GameManager : MonoBehaviour
     {
         foreach (PlayerC c in God.Session.Players.Keys)
         {
-            SheetDict[c].Setup(God.Session.Players[c]);
+            PlayerStats ps = God.Session.Players[c];
+            SheetDict[c].Setup(ps);
+            ps.PC.Setup();
         }
         God.Session.NextPhase();
     }
@@ -32,10 +34,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if(God.Phase != null) God.Phase.Run();
-        foreach (PlayerC c in God.Session.Players.Keys)
-        {
-            SheetDict[c].Imprint();
-        }
+        // foreach (PlayerC c in God.Session.Players.Keys)
+        // {
+        //     SheetDict[c].Imprint();
+        // }
     }
 
     public GameBoard GetBoard(GBoards b)

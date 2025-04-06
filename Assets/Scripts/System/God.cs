@@ -19,10 +19,10 @@ public static class God
         return new GameEvent(e);
     }
 
-    public static void HandleEvent(PlayerStats pc, GameEvent e)
+    public static void HandleEvent(PlayerStats pc, GameEvent e,TokenController t=null)
     {
-        if(Phase != null) Phase.HandleEvent(pc,e);
-        else Session.HandleEvent(pc,e);
+        if(Phase != null) Phase.HandleEvent(pc,e,t);
+        else Session.HandleEvent(pc,e,t);
     }
 
 }

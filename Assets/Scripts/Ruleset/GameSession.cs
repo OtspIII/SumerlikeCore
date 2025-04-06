@@ -50,7 +50,7 @@ public class GameSession
         God.GM.StartPhase(chosen);
     }
 
-    public virtual void HandleEvent(PlayerStats pc, GameEvent e)
+    public virtual void HandleEvent(PlayerStats pc, GameEvent e,TokenController t=null)
     {
         switch (e.Type)
         {
@@ -61,19 +61,22 @@ public class GameSession
             }
             case GEvents.GetCoins:
             {
-                
+                pc.ChangeResource(GResources.Coins, 1);
                 break;
             }
             case GEvents.GetCups:
             {
+                pc.ChangeResource(GResources.Cups, 1);
                 break;
             }
             case GEvents.GetSwords:
             {
+                pc.ChangeResource(GResources.Swords, 1);
                 break;
             }
             case GEvents.GetWands:
             {
+                pc.ChangeResource(GResources.Wands, 1);
                 break;
             }
         }

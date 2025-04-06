@@ -39,44 +39,4 @@ public class GameBoard : MonoBehaviour
         yield return new WaitForSeconds(time);
         MainTxt.text = "";
     }
-    
-    void Update()
-    {
-        
-        // TurnTimer -= Time.deltaTime;
-        // TimeDisplay.text = "" + TurnsLeft + " : " + Mathf.Ceil(TurnTimer);
-        // if(TurnTimer <= 0) TakeTurn();
-        //
-        // if (Countdown > 0)
-        // {
-        //     Countdown -= Time.unscaledDeltaTime;
-        //     CountdownTxt.text = "GAME STARTS IN " + Mathf.Ceil(Countdown);
-        //     if (Countdown < 0 || Input.GetKeyDown(KeyCode.Space))
-        //     {
-        //         Time.timeScale = 1;
-        //         Countdown = 0;
-        //         CountdownTxt.gameObject.SetActive(false);
-        //     }
-        // }
-    }
-    
-    public void TakeTurn()
-    {
-        // TurnTimer = GameSettings.TurnTime;
-        foreach (ZoneController z in Zones)
-        {
-            z.TurnEnd();
-        }
-
-        foreach (PlayerStats ps in God.Session.Players.Values)
-        {
-            ps.TurnEnd();
-        }
-
-        // TurnsLeft--;
-        // if (TurnsLeft <= 0)
-        // {
-        //     God.GM.GameOver();
-        // }
-    }
 }

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,11 +13,18 @@ public class PlayerStatsheet : MonoBehaviour
     {
         God.GM.SheetDict.Add(Color,this);
     }
-    
+
+    private void Update()
+    {
+        if(Who != null && Who.Who != PlayerC.None)
+            Imprint();
+    }
+
     public virtual void Setup(PlayerStats s)
     {
         Who = s;
         BG.color = God.Library.GetPlayer(Color).C;
+        Imprint();
     }
     
     public virtual void Imprint()

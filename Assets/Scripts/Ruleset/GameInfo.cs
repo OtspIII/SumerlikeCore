@@ -23,5 +23,6 @@ public enum GResources
     Coins=1,
     Cups=2,
     Swords=3,
-    Wands=4
+    Wands=4,
+    Points=5,
 }

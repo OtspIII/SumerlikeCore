@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ZoneController : MonoBehaviour
 {
@@ -12,10 +14,11 @@ public class ZoneController : MonoBehaviour
     public TextMeshPro Desc;
     public List<PlayerController> Inside;
     public SpriteRenderer BG;
-    public GameEvent Effect;
-    public GameEvent[] ExtraEffects;
+    public GameEvent UseEffect;
+    public GameEvent TokenEffect;
     public GameBoard Board;
-
+    public List<TokenController> Tokens;
+    public int MaxTokens = 1;
     
     void Start()
     {
@@ -53,21 +56,22 @@ public class ZoneController : MonoBehaviour
     
     public virtual void OnUseStart(PlayerStats pc)
     {
-        God.HandleEvent(pc,Effect);
+        God.HandleEvent(pc,UseEffect);
+        if (pc.PC.Followers.Count > 0) TakeToken(pc.PC.Followers[0]);
     }
     
     public virtual void OnUseEnd(PlayerStats pc)
     {
-        Debug.Log("USED A: " + gameObject + " / " + pc);
+        
     }
     
     public virtual void OnAlt(PlayerStats pc)
     {
-        //Debug.Log("USED B: " + gameObject + " / " + pc);
+        
     }
     public virtual void OnAltStart(PlayerStats pc)
     {
-        Debug.Log("USED B: " + gameObject + " / " + pc);
+        
     }
     public virtual void OnAltEnd(PlayerStats pc)
     {
@@ -76,13 +80,30 @@ public class ZoneController : MonoBehaviour
     
     public virtual void TurnEnd()
     {
-        foreach (PlayerController pc in Inside)
+        Debug.Log("TURN END " + gameObject);
+        foreach (PlayerController pc in Inside.ToArray())
         {
             TurnEndPlayer(pc.Stats);
+        }
+        foreach (TokenController t in Tokens.ToArray())
+        {
+            Debug.Log("TURN END TOKEN" + gameObject + " / " + t.gameObject);
+            TurnEndToken(t);
         }
     }
     
     public virtual void TurnEndPlayer(PlayerStats pc)
+    {
+        
+    }
+    
+    public virtual void TurnEndToken(TokenController t)
+    {
+        God.HandleEvent(t.OwnStats,TokenEffect,t);
+        RemoveToken(t);
+    }
+
+    public virtual void PhaseEnd(GPhases p)
     {
         
     }
@@ -109,5 +130,20 @@ public class ZoneController : MonoBehaviour
     public virtual bool ValidTarget(PlayerStats who)
     {
         return true;
+    }
+
+    public virtual bool TakeToken(TokenController t)
+    {
+        if (Tokens.Count >= MaxTokens) return false;
+        t.SetTarget(transform,new Vector2(Random.Range(-1f,1f),Random.Range(-1f,1f)));
+        Tokens.Add(t);
+        return true;
+    }
+
+    public virtual void RemoveToken(TokenController t)
+    {
+        if (!Tokens.Contains(t)) return;
+        Tokens.Remove(t);
+        t.SetTarget();
     }
 }
