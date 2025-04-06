@@ -11,6 +11,7 @@ public class GamePhase
     public int TotalTurns;
     public int TurnsLeft;
     public bool Complete = false;
+    public Coroutine Paused;
 
     public void Start()
     {
@@ -27,33 +28,39 @@ public class GamePhase
     public virtual IEnumerator Intro()
     {
         yield return null;
+        //yield return C(God.Board.DisplayText(Type + " Intro"));
     }
     
     public virtual IEnumerator EndPhase()
     {
         yield return null;
+        //yield return C(God.Board.DisplayText(Type + " End"));
     }
 
     public virtual IEnumerator EndTurn()
     {
-        yield return null;
+        yield return C(God.Board.DisplayText("Turn " + (TotalTurns-TurnsLeft) + " Complete"));
     }
 
     public virtual void Run()
     {
-        Debug.Log("A");
         if (TurnTime > 0) Timer();
     }
 
     public virtual void Timer()
     {
-        Debug.Log("B");
+        if (Paused != null) return;
         TimeLeft -= Time.deltaTime;
         God.Board.DisplayTime(TimeLeft, TurnsLeft);
         if (TimeLeft <= 0)
         {
-            if(TotalTurns != -1)
-                EndTurn();
+            TimeLeft = TurnTime;
+            if (TotalTurns != -1)
+            {
+                TurnsLeft--;
+                if (TurnsLeft <= 0) Complete = true;
+                C(EndTurn());
+            }
             else
                 Complete = true;
         }
@@ -68,6 +75,7 @@ public class GamePhase
 
     public bool CheckForComplete()
     {
+        if (Paused != null) return false;
         return TurnTime <= 0 || Complete;
     }
     
@@ -89,8 +97,22 @@ public class GamePhase
         yield return null;
     }
 
-    public Coroutine C(IEnumerator i)
+    public Coroutine C(IEnumerator i, bool pause=true)
     {
+        if (pause)
+        {
+            return God.GM.StartCoroutine(CPause(i));
+        }
         return God.GM.StartCoroutine(i);
+    }
+
+    public IEnumerator CPause(IEnumerator i)
+    {
+        God.Board.UndisplayTime();
+        Coroutine p = God.GM.StartCoroutine(i);
+        Paused = p;
+        yield return Paused;
+        if(Paused == p)
+            Paused = null;
     }
 }

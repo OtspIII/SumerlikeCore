@@ -43,7 +43,7 @@ public class GameSession
 
     public virtual void NextPhase()
     {
-        if (Phases.Count == 0) SceneManager.LoadScene("Main Menu");
+        if (Phases.Count == 0) SceneManager.LoadScene(0);
         GamePhase chosen = Phases[0];
         Phases.Remove(chosen);
         CurrentPhase = chosen;

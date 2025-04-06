@@ -28,6 +28,10 @@ public class GameBoard : MonoBehaviour
     {
         TimeDisplay.text = "" + (rounds != -1 ? rounds + " : " : "" ) + Mathf.Ceil(timer);
     }
+    public void UndisplayTime()
+    {
+        TimeDisplay.text = "";
+    }
 
     public virtual IEnumerator DisplayText(string txt, float time = 1)
     {

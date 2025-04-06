@@ -11,6 +11,6 @@ public class IntroPhase : GamePhase
 
     public override IEnumerator Script()
     {
-        yield return C(God.GM.CurrentBoard.DisplayText("Game Start"));
+        yield return C(God.Board.DisplayText("Game Start"));
     }
 }
