@@ -325,6 +325,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3472543259100461663, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      propertyPath: Resource
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5881138993249239089, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      propertyPath: Resource
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6540536931111176979, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      propertyPath: Resource
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647682817298008614, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      propertyPath: Resource
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -347,13 +363,28 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3809718221388611368, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 8253524900160880348, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 1592247397127028253, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 5786126276068032489, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 6785379360801803876, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 1764915411616698256, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 4576908358607844362, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 8777742466784392702, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 4888561486967243060, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 2a80d742e4d8c0b4fa0354c93de80245, type: 3}

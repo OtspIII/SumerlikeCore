@@ -75,19 +75,17 @@ public class ZoneController : MonoBehaviour
     }
     public virtual void OnAltEnd(PlayerStats pc)
     {
-        Debug.Log("USED B: " + gameObject + " / " + pc);
+        
     }
     
     public virtual void TurnEnd()
     {
-        Debug.Log("TURN END " + gameObject);
         foreach (PlayerController pc in Inside.ToArray())
         {
             TurnEndPlayer(pc.Stats);
         }
         foreach (TokenController t in Tokens.ToArray())
         {
-            Debug.Log("TURN END TOKEN" + gameObject + " / " + t.gameObject);
             TurnEndToken(t);
         }
     }

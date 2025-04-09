@@ -17,6 +17,7 @@ public enum GEvents
     None=0,
     StartGame=001,
     //ZoneActions
+    PayResources=100,
     GetCoins=101,
     GetCups=102,
     GetSwords=103,
