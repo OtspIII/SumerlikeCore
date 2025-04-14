@@ -25,6 +25,8 @@ public class PlayerController : ThingController
     public List<TokenController> Tokens = new List<TokenController>();
     public List<TokenController> Followers = new List<TokenController>();
     public LocStates LState = LocStates.Active;
+
+    public ZoneController AITarget;
     
     void Start()
     {
@@ -35,6 +37,7 @@ public class PlayerController : ThingController
     void Update()
     {
         if (LState != LocStates.Active) return;
+        if (God.Phase != null && !God.Phase.CanAct) return;
         if(Controls != ControllerType.Gamepad)
             Movement = Vector2.zero;
         if(Controls == ControllerType.AI) AIControls();
@@ -62,12 +65,12 @@ public class PlayerController : ThingController
         JustPressed.Clear();
     }
 
-    public virtual void SetupPregame()
+    public virtual void StartPregame()
     {
         
     }
 
-    public virtual void Setup()
+    public virtual void StartGameplay()
     {
         for (int n = 0; n < GameSettings.StartingTokens; n++)
         {
@@ -125,7 +128,26 @@ public class PlayerController : ThingController
 
     public void AIControls()
     {
-        
+        if (AITarget == null)
+        {
+           AIPickTarget();
+           if (AITarget == null) return;
+        }
+
+        if (Zone != AITarget)
+        {
+            Movement = ((Vector2)AITarget.transform.position - (Vector2)transform.position).normalized * Speed;
+        }
+        else
+        {
+            if (Followers.Count > 0)
+            {
+                AITarget.OnUseStart(State);
+                AITarget.OnUse(State);
+                AITarget.OnUseEnd(State);
+                AITarget = null;
+            }
+        }
     }
 
 
@@ -225,6 +247,12 @@ public class PlayerController : ThingController
     public override LocInfo MakeLocInfo()
     {
         return new LocInfo(transform.position,LState);
+    }
+
+    public virtual void AIPickTarget()
+    {
+        List<ZoneController> opts = God.Board.Zones;
+        AITarget = opts.Random();
     }
 
 }

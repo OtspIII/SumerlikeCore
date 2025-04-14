@@ -44,7 +44,7 @@ public class ZoneState : Thing
     public ZoneController Zone;
     public BoardState Board { get { return God.Session.GetBoard(BoardID); } set { BoardID = value.ID; } }
     public int BoardID;
-    public int MaxTokens = 1;
+    public int MaxTokens = 3;
     public List<TokenState> Tokens { get { return GetTokens(); } }
     public List<int> TokenIDs = new List<int>();
     public List<PlayerState> Players { get { return GetPlayers(); } }

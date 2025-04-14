@@ -30,6 +30,6 @@ public class PregameManager : MonoBehaviour
         p.Setup(s);
         God.Session.Players.Add(color,s);
         DontDestroyOnLoad(p.gameObject);
-        p.SetupPregame();
+        p.StartPregame();
     }
 }

@@ -12,6 +12,7 @@ public class GamePhase
     public int TurnsLeft;
     public bool Complete = false;
     public Coroutine Paused;
+    public bool CanAct = false;
 
     public void Start()
     {

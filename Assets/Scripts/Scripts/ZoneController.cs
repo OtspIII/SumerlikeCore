@@ -40,6 +40,7 @@ public class ZoneController : ThingController
         if(pc.Zone != null) pc.Zone.PlayerExit(pc);
         pc.Zone = this;
         State.AddPlayer(pc.State);
+        Debug.Log("ENTER: " + pc + " / " + this);
         // Inside.Add(pc);
     }
     
@@ -49,6 +50,7 @@ public class ZoneController : ThingController
         if (pc.Zone != this) return;
         pc.Zone = null;
         // Inside.Remove(pc);
+        Debug.Log("EXIT: " + pc + " / " + this);
         State.RemovePlayer(pc.State);
 
     }

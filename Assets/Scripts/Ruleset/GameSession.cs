@@ -8,6 +8,7 @@ public class GameSession
     public List<PlayerC> ColorOptions = new List<PlayerC>()
         { PlayerC.Blue, PlayerC.Green, PlayerC.Red, PlayerC.Yellow };
     public Dictionary<PlayerC, PlayerState> Players = new Dictionary<PlayerC, PlayerState>();
+    public int MinPlayers = 4;
 
     public int MaxBoardID = 1;
     public Dictionary<int, BoardState> BoardLinks = new Dictionary<int, BoardState>();

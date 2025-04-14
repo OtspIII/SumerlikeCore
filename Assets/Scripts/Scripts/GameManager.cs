@@ -22,11 +22,17 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        for (int n = God.Session.Players.Keys.Count;n<God.Session.MinPlayers;n++)
+        {
+            PlayerC color = God.Session.NextPlayer();
+            PlayerState s = new PlayerState(color);
+            PlayerController pc = God.Library.SpawnAIPlayer(color,s,Vector3.zero);
+        }
         foreach (PlayerC c in God.Session.Players.Keys)
         {
             PlayerState ps = God.Session.Players[c];
             SheetDict[c].Setup(ps);
-            ps.PC.Setup();
+            ps.PC.StartGameplay();
         }
 
         foreach (GameBoard gb in BoardDict.Values)

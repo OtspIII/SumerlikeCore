@@ -58,3 +58,4 @@ MonoBehaviour:
     Name: Green
     C: {r: 0.036716342, g: 1, b: 0, a: 1}
   TokenPrefab: {fileID: 6261437182894884055, guid: b9018cf870a38924b85097476af5ee2b, type: 3}
+  PlayerPrefab: {fileID: 5267956583277810579, guid: 5812264f7fd327043841a21f61aa2d7b, type: 3}
