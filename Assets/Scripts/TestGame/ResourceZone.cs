@@ -20,15 +20,15 @@ public class ResourceZone : ZoneController
         if (split > 0)
         {
             int amt = Amount / split;
-            foreach (PlayerController pc in Inside.ToArray())
+            foreach (PlayerState pc in Inside.ToArray())
             {
-                pc.Stats.ChangeResource(Resource, amt);
+                pc.ChangeResource(Resource, amt);
                 Amount -= amt;
             }
 
-            foreach (TokenController t in Tokens.ToArray())
+            foreach (TokenState t in Tokens.ToArray())
             {
-                t.OwnStats.ChangeResource(Resource, amt);
+                t.Owner.ChangeResource(Resource, amt);
                 RemoveToken(t);
                 Amount -= amt;
             }

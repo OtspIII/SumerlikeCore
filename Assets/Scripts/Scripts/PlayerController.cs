@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : ThingController
 {
     [Header("Stats")] public ControllerType Controls = ControllerType.AI;
 
-    [Header("Stuff")] 
-    public PlayerStats Stats;
+    [FormerlySerializedAs("Stats")] [Header("Stuff")] 
+    public PlayerState State;
     public Rigidbody2D RB;
     public SpriteRenderer SR;
     public ZoneController Zone;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public List<PActions> JustReleased;
     public List<TokenController> Tokens = new List<TokenController>();
     public List<TokenController> Followers = new List<TokenController>();
+    public LocStates LState = LocStates.Active;
     
     void Start()
     {
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (LState != LocStates.Active) return;
         if(Controls != ControllerType.Gamepad)
             Movement = Vector2.zero;
         if(Controls == ControllerType.AI) AIControls();
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         for (int n = 0; n < GameSettings.StartingTokens; n++)
         {
-            God.Library.SpawnToken(Stats);
+            God.Library.SpawnToken(State);
         }
     }
     
@@ -76,7 +79,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Zone != null)
         {
-            Zone.OnUse(Stats);
+            Zone.OnUse(State);
         }
     }
 
@@ -84,7 +87,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Zone != null)
         {
-            Zone.OnUseStart(Stats);
+            Zone.OnUseStart(State);
         }
     }
     
@@ -92,7 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Zone != null)
         {
-            Zone.OnUseEnd(Stats);
+            Zone.OnUseEnd(State);
         }
     }
     
@@ -100,7 +103,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Zone != null)
         {
-            Zone.OnAlt(Stats);
+            Zone.OnAlt(State);
         }
     }
     
@@ -108,7 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Zone != null)
         {
-            Zone.OnAltStart(Stats);
+            Zone.OnAltStart(State);
         }
     }
     
@@ -116,7 +119,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Zone != null)
         {
-            Zone.OnAltEnd(Stats);
+            Zone.OnAltEnd(State);
         }
     }
 
@@ -126,14 +129,14 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void Setup(PlayerStats s)
+    public void Setup(PlayerState s)
     {
-        Stats = s;
-        Debug.Log(s + " / " + Stats.Who);
-        PColor p = God.Library.GetPlayer(Stats.Who);
+        State = s;
+        Debug.Log(s + " / " + State.Who);
+        PColor p = God.Library.GetPlayer(State.Who);
         SR.color = p.C;
-        Stats.PC = this;
-        gameObject.name = Stats.Name;
+        State.PC = this;
+        gameObject.name = State.Name;
         Speed = GameSettings.WalkSpeed;
     }
 
@@ -217,6 +220,11 @@ public class PlayerController : MonoBehaviour
             Followers.Add(t);
             t.SetTarget(Followers.IndexOf(t));
         }
+    }
+
+    public override LocInfo MakeLocInfo()
+    {
+        return new LocInfo(transform.position,LState);
     }
 
 }

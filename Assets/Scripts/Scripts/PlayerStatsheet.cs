@@ -6,7 +6,7 @@ public class PlayerStatsheet : MonoBehaviour
 {
     public TextMeshPro Text;
     public PlayerC Color;
-    public PlayerStats Who;
+    public PlayerState Who;
     public SpriteRenderer BG;
 
     public void Start()
@@ -20,7 +20,7 @@ public class PlayerStatsheet : MonoBehaviour
             Imprint();
     }
 
-    public virtual void Setup(PlayerStats s)
+    public virtual void Setup(PlayerState s)
     {
         Who = s;
         BG.color = God.Library.GetPlayer(Color).C;

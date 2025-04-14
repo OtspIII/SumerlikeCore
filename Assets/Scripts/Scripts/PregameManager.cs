@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PregameManager : MonoBehaviour
 {
     public PlayerInputManager PIM;
-    public List<PlayerStats> Players;
+    public List<PlayerState> Players;
 
     void Awake()
     {
@@ -26,7 +26,7 @@ public class PregameManager : MonoBehaviour
     {
         PlayerController p = pi.gameObject.GetComponent<PlayerController>();
         PlayerC color = God.Session.NextPlayer();
-        PlayerStats s = new PlayerStats(color);
+        PlayerState s = new PlayerState(color);
         p.Setup(s);
         God.Session.Players.Add(color,s);
         DontDestroyOnLoad(p.gameObject);

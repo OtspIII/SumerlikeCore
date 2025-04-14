@@ -24,9 +24,14 @@ public class GameManager : MonoBehaviour
     {
         foreach (PlayerC c in God.Session.Players.Keys)
         {
-            PlayerStats ps = God.Session.Players[c];
+            PlayerState ps = God.Session.Players[c];
             SheetDict[c].Setup(ps);
             ps.PC.Setup();
+        }
+
+        foreach (GameBoard gb in BoardDict.Values)
+        {
+            gb.Setup();
         }
         God.Session.NextPhase();
     }

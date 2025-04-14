@@ -27,7 +27,7 @@ public class LibraryManager : MonoBehaviour
       return PlayerDict.ContainsKey(p) ? PlayerDict[p] : null;
    }
 
-   public TokenController SpawnToken(PlayerStats who)
+   public TokenController SpawnToken(PlayerState who)
    {
       TokenController r = Instantiate(TokenPrefab, who.PC.transform.position, Quaternion.identity);
       r.Setup(who);

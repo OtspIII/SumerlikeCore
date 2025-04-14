@@ -2,7 +2,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlayerStats
+public class Thing
+{
+    public int ID;
+    public LocInfo Loc;
+    // public ThingTypes Type;
+    //
+    // public GameLink GetLink()
+    // {
+    //     return new GameLink(Type, ID);
+    // }
+}
+
+[System.Serializable]
+public class PlayerState : Thing
 {
     public PlayerC Who;
     public string Name;
@@ -13,7 +26,7 @@ public class PlayerStats
     }
     public Dictionary<GResources, int> Resources = new Dictionary<GResources, int>();
 
-    public PlayerStats(PlayerC w)
+    public PlayerState(PlayerC w)
     {
         Who = w;
         Name = Who.ToString();
@@ -49,6 +62,20 @@ public class PlayerStats
 }
 
 
+[System.Serializable]
+public class LocInfo
+{
+    public Vector2 Position;
+    public LocStates State;
+
+    public LocInfo(Vector3 pos, LocStates st=LocStates.None)
+    {
+        Position = pos;
+        State = st;
+    }
+}
+
+
 public enum PlayerC
 {
     None=0,
@@ -76,4 +103,13 @@ public enum ControllerType
     AI=1,
     Remote=2,
     Gamepad=3,
+}
+
+public enum LocStates
+{
+    None=0,
+    Active=1,
+    LockedIn=2,
+    Asleep=3,
+    Cutscene=4,
 }

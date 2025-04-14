@@ -7,8 +7,15 @@ public class GameSession
 {
     public List<PlayerC> ColorOptions = new List<PlayerC>()
         { PlayerC.Blue, PlayerC.Green, PlayerC.Red, PlayerC.Yellow };
-    public Dictionary<PlayerC, PlayerStats> Players = new Dictionary<PlayerC, PlayerStats>();
+    public Dictionary<PlayerC, PlayerState> Players = new Dictionary<PlayerC, PlayerState>();
 
+    public int MaxBoardID = 1;
+    public Dictionary<int, BoardState> BoardLinks = new Dictionary<int, BoardState>();
+    public int MaxZoneID = 1;
+    public Dictionary<int, ZoneState> ZoneLinks = new Dictionary<int, ZoneState>();
+    public int MaxTokenID = 1;
+    public Dictionary<int, TokenState> TokenLinks = new Dictionary<int, TokenState>();
+    
     public List<GamePhase> Phases;
     public GamePhase CurrentPhase;
 
@@ -29,7 +36,7 @@ public class GameSession
         };
     }
 
-    public PlayerStats GetPlayer(PlayerC p)
+    public PlayerState GetPlayer(PlayerC p)
     {
         return Players.ContainsKey(p) ? Players[p] : null;
     }
@@ -50,7 +57,7 @@ public class GameSession
         God.GM.StartPhase(chosen);
     }
 
-    public virtual void HandleEvent(PlayerStats pc, GameEvent e,TokenController t=null)
+    public virtual void HandleEvent(PlayerState pc, GameEvent e,TokenState t=null)
     {
         switch (e.Type)
         {
@@ -80,5 +87,44 @@ public class GameSession
                 break;
             }
         }
+    }
+
+    public int AddBoard(BoardState p)
+    {
+        p.ID = MaxBoardID;
+        MaxBoardID++;
+        BoardLinks.Add(p.ID,p);
+        return p.ID;
+    }
+    
+    public int AddZone(ZoneState p)
+    {
+        p.ID = MaxZoneID;
+        MaxZoneID++;
+        ZoneLinks.Add(p.ID,p);
+        return p.ID;
+    }
+    
+    public int AddToken(TokenState p)
+    {
+        p.ID = MaxTokenID;
+        MaxTokenID++;
+        TokenLinks.Add(p.ID,p);
+        return p.ID;
+    }
+
+    public BoardState GetBoard(int id)
+    {
+        return BoardLinks.TryGetValue(id,out BoardState r) ? r : null;
+    }
+    
+    public ZoneState GetZone(int id)
+    {
+        return ZoneLinks.TryGetValue(id,out ZoneState r) ? r : null;
+    }
+    
+    public TokenState GetToken(int id)
+    {
+        return TokenLinks.TryGetValue(id,out TokenState r) ? r : null;
     }
 }

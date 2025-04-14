@@ -12,7 +12,7 @@ public class IntroPhase : GamePhase
     public override void Setup()
     {
         base.Setup();
-        foreach (PlayerStats p in God.Session.Players.Values)
+        foreach (PlayerState p in God.Session.Players.Values)
         {
             p.ChangeResource(GResources.Points, 0);
             p.ChangeResource(GResources.Cups, 0);

@@ -4,14 +4,20 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class GameBoard : MonoBehaviour
+public class GameBoard : ThingController
 {
     public GBoards Type;
     public TextMeshPro TimeDisplay;
     public Transform CamPosition;
     public List<ZoneController> Zones;
     public TextMeshPro MainTxt;
+    public BoardState State;
     // public float Countdown;
+
+    private void Awake()
+    {
+        State = new BoardState(this);
+    }
 
     private void Start()
     {
@@ -19,7 +25,18 @@ public class GameBoard : MonoBehaviour
             God.GM.BoardDict.Add(Type,this);
     }
 
-    public virtual void Setup(GamePhase ph)
+    public virtual void Setup()
+    {
+        State = new BoardState(this);
+    }
+
+    public void AddZone(ZoneController z)
+    {
+        Zones.Add(z);
+        State.AddZone(z.State);
+    }
+    
+    public virtual void PhaseSetup(GamePhase ph)
     {
         
     }

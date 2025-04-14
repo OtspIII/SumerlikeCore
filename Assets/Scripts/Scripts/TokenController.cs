@@ -1,26 +1,27 @@
 using UnityEngine;
 
-public class TokenController : MonoBehaviour
+public class TokenController : ThingController
 {
     public PlayerController Owner;
-    public PlayerStats OwnStats;
     public float Speed;
     public Transform Target;
+    public ZoneController AssignedZone{get{return State.Zone?.Zone;}set{SetZone(value);}}
     public Vector2 Offset;
     public float StopAt = 1;
     public SpriteRenderer Body;
+    public TokenState State;
 
     void Start()
     {
         Speed = GameSettings.WalkSpeed * 1.5f;
     }
 
-    public void Setup(PlayerStats owner)
+    public void Setup(PlayerState owner)
     {
         Owner = owner.PC;
-        OwnStats = owner;
         Owner.AddToken(this);
-        Body.color = God.Library.GetPlayer(OwnStats.Who).C;
+        State = new TokenState(this,Owner);
+        Body.color = God.Library.GetPlayer(State.Owner.Who).C;
     }
     
     void Update()
@@ -33,12 +34,24 @@ public class TokenController : MonoBehaviour
         }
     }
 
+    public void SetZone(ZoneController z)
+    {
+        SetZone(z,z.transform,Vector2.zero);
+    }
+    
+    public void SetZone(ZoneController z,Transform t,Vector2 offset, float stop=0)
+    {
+        State.Zone = z.State;
+        SetTarget(t,offset,stop);
+    }
+
     public void SetTarget(float place=0)
     {
         Target = Owner.transform;
         Offset = Vector2.zero;
         StopAt = (place+1);
         if(!Owner.Followers.Contains(this)) Owner.Followers.Add(this);
+        State.Zone = null;
     }
 
     public void SetTarget(Transform t)

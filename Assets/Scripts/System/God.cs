@@ -9,9 +9,9 @@ public static class God
     public static GamePhase Phase { get { return Session.CurrentPhase; } }
     public static GameBoard Board { get { return GM.CurrentBoard; } }
     
-    public static PlayerStats GetPlayer(PlayerC p)
+    public static PlayerState GetPlayer(PlayerC p)
     {
-        return Session.Players.TryGetValue(p, out PlayerStats r) ? r : null;
+        return Session.Players.TryGetValue(p, out PlayerState r) ? r : null;
     }
 
     public static GameEvent E(GEvents e)
@@ -19,7 +19,7 @@ public static class God
         return new GameEvent(e);
     }
 
-    public static void HandleEvent(PlayerStats pc, GameEvent e,TokenController t=null)
+    public static void HandleEvent(PlayerState pc, GameEvent e,TokenState t=null)
     {
         if(Phase != null) Phase.HandleEvent(pc,e,t);
         else Session.HandleEvent(pc,e,t);

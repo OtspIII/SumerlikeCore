@@ -75,7 +75,7 @@ public class GamePhase
         
     }
 
-    public virtual void HandleEvent(PlayerStats pc, GameEvent e,TokenController t=null)
+    public virtual void HandleEvent(PlayerState pc, GameEvent e,TokenState t=null)
     {
         //Can override normal rules if desired
         Session.HandleEvent(pc,e);
