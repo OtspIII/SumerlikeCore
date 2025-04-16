@@ -8,8 +8,12 @@ public class LibraryManager : MonoBehaviour
 {
    public List<PColor> PColors;
    public Dictionary<PlayerC, PColor> PlayerDict = new Dictionary<PlayerC, PColor>();
+   public List<ResourceArt> ResourceInfo;
+   public Dictionary<GResources, ResourceArt> ResourceDict = new Dictionary<GResources, ResourceArt>();
    public TokenController TokenPrefab;
    public PlayerController PlayerPrefab;
+   public IconController IconPrefab;
+   
 
    public void Awake()
    {
@@ -22,6 +26,8 @@ public class LibraryManager : MonoBehaviour
       God.Library = this;
       foreach(PColor p in PColors)
          PlayerDict.Add(p.Type,p);
+      foreach(ResourceArt p in ResourceInfo)
+         ResourceDict.Add(p.Type,p);
       
       TextAsset j = Resources.Load<TextAsset>("GameSettings");
       JSONGame g = JsonUtility.FromJson<JSONGame>(j.text);
@@ -31,13 +37,25 @@ public class LibraryManager : MonoBehaviour
 
    public PColor GetPlayer(PlayerC p)
    {
-      return PlayerDict.ContainsKey(p) ? PlayerDict[p] : null;
+      return PlayerDict.TryGetValue(p,out PColor r) ? r : null;
+   }
+   
+   public ResourceArt GetResource(GResources res)
+   {
+      return ResourceDict.TryGetValue(res,out ResourceArt r) ? r : null;
    }
 
    public TokenController SpawnToken(PlayerState who)
    {
       TokenController r = Instantiate(TokenPrefab, who.PC.transform.position, Quaternion.identity);
       r.Setup(who);
+      return r;
+   }
+   
+   public IconController SpawnIcon(Vector3 where,GResources type,int amt=1)
+   {
+      IconController r = Instantiate(IconPrefab, where, Quaternion.identity);
+      r.Setup(type,amt);
       return r;
    }
    
@@ -58,4 +76,13 @@ public class PColor
    public PlayerC Type;
    public string Name;
    public Color C;
+}
+
+[System.Serializable]
+public class ResourceArt
+{
+   public GResources Type;
+   public Sprite S;
+   public AudioClip Sfx;
+   public IconController IconPrefab;
 }

@@ -57,5 +57,27 @@ MonoBehaviour:
   - Type: 4
     Name: Green
     C: {r: 0.036716342, g: 1, b: 0, a: 1}
+  ResourceInfo:
+  - Type: 1
+    S: {fileID: -4872786628716305632, guid: f4bd857c6a9cccd47a932062f4a86d1a, type: 3}
+    Sfx: {fileID: 0}
+    IconPrefab: {fileID: 0}
+  - Type: 2
+    S: {fileID: -3454234737633917292, guid: 78cf992d7dfc4f74a9eb8998e2be1245, type: 3}
+    Sfx: {fileID: 0}
+    IconPrefab: {fileID: 0}
+  - Type: 3
+    S: {fileID: 4942803658038726614, guid: a519945bbca07f245b039c4ccea0ebee, type: 3}
+    Sfx: {fileID: 0}
+    IconPrefab: {fileID: 0}
+  - Type: 4
+    S: {fileID: -6426910345808927280, guid: 92088cd391179b2409698727b216b927, type: 3}
+    Sfx: {fileID: 0}
+    IconPrefab: {fileID: 0}
+  - Type: 5
+    S: {fileID: 21300000, guid: 9b1edc43808e01341a8cc2bada83fd83, type: 3}
+    Sfx: {fileID: 0}
+    IconPrefab: {fileID: 0}
   TokenPrefab: {fileID: 6261437182894884055, guid: b9018cf870a38924b85097476af5ee2b, type: 3}
   PlayerPrefab: {fileID: 5267956583277810579, guid: 5812264f7fd327043841a21f61aa2d7b, type: 3}
+  IconPrefab: {fileID: 7635415070634331638, guid: 2ea05a475d97e5f48a29ee17275b7629, type: 3}

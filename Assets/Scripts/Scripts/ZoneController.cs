@@ -40,7 +40,7 @@ public class ZoneController : ThingController
         if(pc.Zone != null) pc.Zone.PlayerExit(pc);
         pc.Zone = this;
         State.AddPlayer(pc.State);
-        Debug.Log("ENTER: " + pc + " / " + this);
+        // Debug.Log("ENTER: " + pc + " / " + this);
         // Inside.Add(pc);
     }
     
@@ -50,7 +50,7 @@ public class ZoneController : ThingController
         if (pc.Zone != this) return;
         pc.Zone = null;
         // Inside.Remove(pc);
-        Debug.Log("EXIT: " + pc + " / " + this);
+        // Debug.Log("EXIT: " + pc + " / " + this);
         State.RemovePlayer(pc.State);
 
     }
@@ -77,34 +77,47 @@ public class ZoneController : ThingController
     }
     public virtual void OnAltStart(PlayerState pc)
     {
-        
+        foreach (TokenState t in Tokens)
+        {
+            if (t.Owner == pc)
+            {
+                RemoveToken(t);
+                break;
+            }
+        }
     }
     public virtual void OnAltEnd(PlayerState pc)
     {
         
     }
     
-    public virtual void TurnEnd()
+    public virtual IEnumerator TurnEnd()
     {
         foreach (PlayerState pc in Inside.ToArray())
         {
-            TurnEndPlayer(pc);
+            yield return God.C(TurnEndPlayer(pc));
         }
         foreach (TokenState t in Tokens.ToArray())
         {
-            TurnEndToken(t);
+            yield return God.C(TurnEndToken(t));
         }
     }
     
-    public virtual void TurnEndPlayer(PlayerState pc)
+    public virtual IEnumerator TurnEndLate()
     {
-        
+        yield return null;
     }
     
-    public virtual void TurnEndToken(TokenState t)
+    public virtual IEnumerator TurnEndPlayer(PlayerState pc)
+    {
+        yield return null;
+    }
+    
+    public virtual IEnumerator TurnEndToken(TokenState t)
     {
         God.HandleEvent(t.Owner,TokenEffect,t);
         RemoveToken(t);
+        yield return null;
     }
 
     public virtual void PhaseEnd(GPhases p)

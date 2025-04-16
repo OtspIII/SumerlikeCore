@@ -46,7 +46,11 @@ public class GamePhase
     {
         foreach (ZoneController z in God.Board.Zones)
         {
-            z.TurnEnd();
+            yield return God.C(z.TurnEnd());
+        }
+        foreach (ZoneController z in God.Board.Zones)
+        {
+            yield return God.C(z.TurnEndLate());
         }
         yield return C(God.Board.DisplayText("Turn " + (TotalTurns-TurnsLeft) + " Complete"));
     }
@@ -123,5 +127,14 @@ public class GamePhase
         yield return Paused;
         if(Paused == p)
             Paused = null;
+    }
+
+    public void SetAct(bool canAct)
+    {
+        CanAct = canAct;
+        foreach (PlayerController pc in God.GM.Players)
+        {
+            pc.Movement = Vector2.zero;
+        }
     }
 }

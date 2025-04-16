@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public Camera Cam;
     public Coroutine PhaseC;
     public GameBoard CurrentBoard;
+    public List<IconController> AllIcons;
+    public List<PlayerController> Players;
 
     public Dictionary<GBoards, GameBoard> BoardDict = new Dictionary<GBoards, GameBoard>();
     public Dictionary<PlayerC, PlayerStatsheet> SheetDict = new Dictionary<PlayerC, PlayerStatsheet>();
@@ -61,6 +63,7 @@ public class GameManager : MonoBehaviour
     public void StartPhase(GamePhase p)
     {
         Debug.Log("START PHASE: " + p);
+        Audit();
         if (p.Board != GBoards.None)
         {
             GameBoard b = GetBoard(p.Board);
@@ -91,6 +94,27 @@ public class GameManager : MonoBehaviour
             t += Time.deltaTime / duration;
         }
         Cam.transform.position = tpos;
+    }
+
+    public IEnumerator WaitForIcons(float min=0.5f,float max = 5)
+    {
+        yield return new WaitForSeconds(0.1f);
+        float safety = max-0.1f;
+        while (safety > 0 && AllIcons.Count > 0)
+        {
+            safety -= Time.deltaTime;
+            yield return null;
+        }
+        yield return new WaitForSeconds(min-0.1f);
+    }
+
+    public virtual void Audit()
+    {
+        foreach (PlayerStatsheet sh in SheetDict.Values)
+        {
+            sh.Sync();
+            sh.Who.PC.Audit();
+        }
     }
 
 }

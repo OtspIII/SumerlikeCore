@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class ResourceZone : ZoneController
         UpdateDesc();
     }
 
-    public override void TurnEnd()
+    public override IEnumerator TurnEnd()
     {
         int split = Inside.Count + Tokens.Count;
         if (split > 0)
@@ -22,19 +23,40 @@ public class ResourceZone : ZoneController
             int amt = Amount / split;
             foreach (PlayerState pc in Inside.ToArray())
             {
-                pc.ChangeResource(Resource, amt);
-                Amount -= amt;
+                for(int n=0;n<amt;n++)
+                {
+                    // pc.ChangeResource(Resource, amt);
+                    pc.PC.SpawnIcon(Resource);
+                    Amount--;
+                    yield return God.Wait(0.2f, 0.5f, 0.1f);
+                }
+                
             }
 
             foreach (TokenState t in Tokens.ToArray())
             {
-                t.Owner.ChangeResource(Resource, amt);
+                for(int n=0;n<amt;n++)
+                {
+                    t.Token.SpawnIcon(Resource);
+                    // t.Owner.ChangeResource(Resource, amt);
+                    Amount--;
+                    yield return God.Wait(0.2f, 0.5f, 0.1f);
+                }
                 RemoveToken(t);
-                Amount -= amt;
+                
             }
         }
+        
+    }
+
+    public override IEnumerator TurnEndLate()
+    {
+        Debug.Log("TEL");
         Amount += TurnIncrease();
         UpdateDesc();
+        Desc.color = Color.red;
+        yield return God.Wait(0.2f, 0.5f, 0.1f);
+        Desc.color = Color.black;
     }
 
     public int TurnIncrease()

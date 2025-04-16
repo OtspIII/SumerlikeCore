@@ -50,10 +50,16 @@ public class GameBoard : ThingController
         TimeDisplay.text = "";
     }
 
-    public virtual IEnumerator DisplayText(string txt, float time = 1)
+    public virtual IEnumerator DisplayText(string txt, float time = 1,bool waitForIcons=true)
     {
         MainTxt.text = txt;
         yield return new WaitForSeconds(time);
+        float safety = 5;
+        while (waitForIcons && safety > 0 && God.GM.AllIcons.Count > 0)
+        {
+            safety -= Time.deltaTime;
+            yield return null;
+        }
         MainTxt.text = "";
     }
 }

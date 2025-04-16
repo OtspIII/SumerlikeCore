@@ -38,15 +38,32 @@ public class PlayerState : Thing
         
     }
 
-    public int ChangeResource(GResources res, int amt)
+    public int GetResource(GResources res)
+    {
+        return Resources.TryGetValue(res, out int r) ? r : 0;
+    }
+
+    public int ChangeResource(GResources res, int amt, bool instant=false)
     {
         if (!Resources.ContainsKey(res))
         {
             Resources.Add(res,amt);
-            return amt;
         }
-        Resources[res] += amt;
-        Sheet.Imprint();
+        else
+            Resources[res] += amt;
+        if(instant) Sheet.Imprint();
+        return Resources[res];
+    }
+    
+    public int SetResource(GResources res, int amt, bool instant=false)
+    {
+        if (!Resources.ContainsKey(res))
+        {
+            Resources.Add(res,amt);
+        }
+        else
+            Resources[res] = amt;
+        if(instant) Sheet.Imprint();
         return Resources[res];
     }
 

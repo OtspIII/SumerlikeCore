@@ -255,5 +255,18 @@ public class PlayerController : ThingController
         AITarget = opts.Random();
     }
 
+    public void SpawnIcon(GResources res, int amt = 1)
+    {
+        IconController i = God.Library.SpawnIcon(transform.position, res, amt);
+        i.Send(State);
+        State.ChangeResource(res, amt);
+    }
+
+    public void Audit()
+    {
+        Movement = Vector2.zero;
+        RB.linearVelocity = Movement;
+    }
+
 }
 

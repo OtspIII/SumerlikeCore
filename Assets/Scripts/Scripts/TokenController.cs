@@ -28,7 +28,8 @@ public class TokenController : ThingController
     {
         if (Vector2.Distance(transform.position, Target.transform.position) > StopAt)
         {
-            Vector3 dest = Vector2.MoveTowards(transform.position, Target.transform.position, Speed * Time.deltaTime);
+            Vector2 tar = (Vector2)Target.transform.position + Offset;
+            Vector3 dest = Vector2.MoveTowards(transform.position, tar, Speed * Time.deltaTime);
             dest.z = transform.position.z;
             transform.position = dest;
         }
@@ -45,12 +46,13 @@ public class TokenController : ThingController
         SetTarget(t,offset,stop);
     }
 
-    public void SetTarget(float place=0)
+    public void SetTarget(float place=-1)
     {
         Target = Owner.transform;
         Offset = Vector2.zero;
-        StopAt = (place+1);
         if(!Owner.Followers.Contains(this)) Owner.Followers.Add(this);
+        if (place < 0) place = Owner.Followers.IndexOf(this);
+        StopAt = (place+1);
         State.Zone = null;
     }
 
@@ -65,5 +67,12 @@ public class TokenController : ThingController
         Offset = offset;
         StopAt = stop;
         if(Owner.Followers.Contains(this)) Owner.Followers.Remove(this);
+    }
+    
+    public void SpawnIcon(GResources res, int amt = 1)
+    {
+        IconController i = God.Library.SpawnIcon(transform.position, res, amt);
+        i.Send(State.Owner);
+        Owner.State.ChangeResource(res, amt);
     }
 }
