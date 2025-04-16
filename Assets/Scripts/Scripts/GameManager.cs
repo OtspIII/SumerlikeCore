@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     public void StartPhase(GamePhase p)
     {
-        Debug.Log("START PHASE: " + p);
+        // Debug.Log("START PHASE: " + p);
         Audit();
         if (p.Board != GBoards.None)
         {
@@ -115,6 +115,12 @@ public class GameManager : MonoBehaviour
             sh.Sync();
             sh.Who.PC.Audit();
         }
+    }
+
+    public virtual void SetPlayers(LocStates state)
+    {
+        foreach (PlayerController pc in Players)
+            pc.SetLState(state);
     }
 
 }

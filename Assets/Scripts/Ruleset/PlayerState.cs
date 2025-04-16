@@ -129,4 +129,5 @@ public enum LocStates
     LockedIn=2,
     Asleep=3,
     Cutscene=4,
+    Waiting=5,
 }

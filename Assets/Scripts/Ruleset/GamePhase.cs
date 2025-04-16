@@ -53,6 +53,10 @@ public class GamePhase
             yield return God.C(z.TurnEndLate());
         }
         yield return C(God.Board.DisplayText("Turn " + (TotalTurns-TurnsLeft) + " Complete"));
+        if (TurnsLeft > 0)
+        {
+            yield return God.WaitForInput();
+        }
     }
 
     public virtual void Run()

@@ -98,4 +98,31 @@ public static class God
         else if (GameSettings.Speed == GameSpeeds.Fast && fast > 0) amt = fast;
         yield return new WaitForSeconds(amt);
     }
+    
+    public static Coroutine WaitForInput(LocStates endState=LocStates.Active,float max=60)
+    {
+        return C(WaitForInputRaw(endState,max));
+    }
+    
+    public static IEnumerator WaitForInputRaw(LocStates endState=LocStates.Active,float max=60)
+    {
+        God.GM.SetPlayers(LocStates.Asleep);
+        while (max > 0)
+        {
+            max -= Time.deltaTime;
+            bool ok = true;
+            foreach (PlayerController pc in God.GM.Players)
+            {
+                if (pc.LState == LocStates.Asleep)
+                {
+                    ok = false;
+                    break;
+                }
+            }
+
+            if (ok) break;
+            yield return null;
+        }
+        God.GM.SetPlayers(LocStates.Active);
+    }
 }

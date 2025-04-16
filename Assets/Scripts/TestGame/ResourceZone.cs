@@ -47,11 +47,11 @@ public class ResourceZone : ZoneController
             }
         }
         
+        
     }
 
     public override IEnumerator TurnEndLate()
     {
-        Debug.Log("TEL");
         Amount += TurnIncrease();
         UpdateDesc();
         Desc.color = Color.red;

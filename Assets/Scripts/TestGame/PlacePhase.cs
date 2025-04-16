@@ -11,6 +11,11 @@ public class PlacePhase : GamePhase
         CanAct = true;
     }
 
+    public override IEnumerator Intro()
+    {
+        yield return God.WaitForInput();
+    }
+
     public override void Run()
     {
         base.Run();
@@ -30,6 +35,10 @@ public class PlacePhase : GamePhase
             yield return God.C(z.TurnEndLate());
         }
         yield return C(God.Board.DisplayText("Turn " + (TotalTurns-TurnsLeft) + " Complete"));
+        if (TurnsLeft > 0)
+        {
+            yield return God.WaitForInput();
+        }
         SetAct(true);
     }
 }

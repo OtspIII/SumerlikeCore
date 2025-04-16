@@ -36,7 +36,18 @@ public class PlayerController : ThingController
 
     void Update()
     {
-        if (LState != LocStates.Active) return;
+        if (LState == LocStates.Asleep)
+        {
+            if (ButtonDown(PActions.A) || Controls == ControllerType.AI)
+                SetLState(LocStates.Waiting);
+            return;
+        }
+        else if (LState == LocStates.Waiting)
+        {
+            if (ButtonDown(PActions.B))
+                SetLState(LocStates.Asleep);
+        }
+        else if (LState != LocStates.Active) return;
         if (God.Phase != null && !God.Phase.CanAct) return;
         if(Controls != ControllerType.Gamepad)
             Movement = Vector2.zero;
@@ -154,7 +165,6 @@ public class PlayerController : ThingController
     public void Setup(PlayerState s)
     {
         State = s;
-        Debug.Log(s + " / " + State.Who);
         PColor p = God.Library.GetPlayer(State.Who);
         SR.color = p.C;
         State.PC = this;
@@ -266,6 +276,18 @@ public class PlayerController : ThingController
     {
         Movement = Vector2.zero;
         RB.linearVelocity = Movement;
+    }
+
+    public void SetLState(LocStates st)
+    {
+        LState = st;
+        PColor p = God.Library.GetPlayer(State.Who);
+        if (st == LocStates.Asleep)
+        {
+            SR.color = Color.Lerp(p.C, Color.black, 0.5f);
+        }
+        else
+            SR.color = p.C;
     }
 
 }
